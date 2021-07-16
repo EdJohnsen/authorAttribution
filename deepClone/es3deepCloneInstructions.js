@@ -1,19 +1,10 @@
-// SUPPORT VARIABLES
-var errorConstructor = {
-	"Error":true,
-	"EvalError":true,
-	"RangeError":true,
-	"ReferenceError":true,
-	"SyntaxError":true,
-	"TypeError":true,
-	"URIError":true
-};
-
+// GENERAL SUPPORT VARIABLES
 var nameRE = /^\s*function ([^ (]*)/;
 
 var stack = new Array(1000);
 
 var stackLength = 0;
+
 
 // GENERAL SUPPORT FUNCTIONS
 function checkStack(obj){
@@ -38,6 +29,7 @@ function stackPop(){
   
   stackLength--;
 }
+
 
 
 // OBJECT-TYPE SUPPORT FUNCTIONS
@@ -346,7 +338,6 @@ var makeInstructionsSupport = {
 
 };
 
-
 // MAIN FUNCTION
 function makeInstructions(obj){
 
@@ -371,6 +362,7 @@ function makeInstructions(obj){
 	
 	return obj;
 }
+
 
 // OBJECT-TYPE SUPPORT FUNCTIONS
 var useInstructionsSupport = {
@@ -525,7 +517,6 @@ var useInstructionsSupport = {
 		return newErr;
 	}
 };
-
 
 // MAIN FUNCTION
 function useInstructions(heavyInstructions){
