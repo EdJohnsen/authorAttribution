@@ -1,4 +1,4 @@
-var multiClone = (function(){
+var multiClone = (function(){ /*GNU LGPLv3 Copyright (C) 2021 Ed Johnsen*/
 
 	// GENERAL SUPPORT VARIABLES
 	var nameRE = /^\s*function ([^ (]*)/;
