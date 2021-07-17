@@ -2,9 +2,7 @@ var multiClone = (function(){
 
 	// GENERAL SUPPORT VARIABLES
 	var nameRE = /^\s*function ([^ (]*)/;
-
 	var stack = new Array(1000);
-
 	var stackLength = 0;
 
 	// GENERAL SUPPORT FUNCTIONS
