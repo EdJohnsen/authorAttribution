@@ -52,3 +52,6 @@ Ideal for accelerating the multi-cloning process of an individual object, Filled
 
 ### Empty Instruction Functions
 Empty Instruction Functions are the only known-to-me solution for accelerating the deep-cloning process of separate, but structurally identical objects. Empty Instruction Functions generate Empty Instruction Objects (deeply-decorated, but otherwise valueless deep-clones). Utilizing pre-solved object-type conditionals and user choice decorations, Empty Instruction Functions are a bit more complex than Filled Instruction Functions, but surely make up for it by being more flexible.
+
+### For Ultimate Speed
+Instruction Objects can be decorated with choices to use .slice, or Object.assign, or Object.create for flat branches within deep-objects... but only when cross-frame deep-cloning is unneeded. In the single-frame environment, the acceleration available from Instruction Functions can outpace even the acceleration of the JSON solution; yielding multi-cloning speeds as much as 10 times faster than the accelerated JSON solution.
