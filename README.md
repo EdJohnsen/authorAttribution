@@ -3,7 +3,7 @@
 All files within this repository are licensed via GNU LGPLv3
 
 ## Advancements to the Realm of Deep-Cloning - Instruction Functions
-Instruction functions are a two-pass family of functions (like the Stringify and Parse, or Flatten and Unflatten families) that supports multi-clone acceleration. 
+Instruction functions are a two-pass family of functions (like the Stringify and Parse, or the Flatten and Unflatten families) that supports multi-clone acceleration. 
 
 ### Defining Multi-Deep-Clone Acceleration by Example
 Whereas JSON.parse(JSON.stringify(obj)) runs at appx 2n,
