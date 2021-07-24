@@ -2,39 +2,7 @@
 
 All files within this repository are licensed via GNU LGPLv3
 
-## Deep Cloning Solutions
-
-Ignoring Call Stack problems, the multiClone solutions in this repository are considered "complete" by the below definition; unless otherwise titled.
-
-Additionally, excepting argument objects, all solutions in this repository support cross-frame deep-cloning.
-
-These solutions are all more complete than are the solutions offered by Lodash, The Dojo Toolkit, MooTools, Angular, jQuery, and the Structured Clone Algorithm.
-
-
-## Completeness
-To earn the title of a complete deep-cloning solution, a solution must solve all, appropriate, generally solvable problems.
-
-Solutions to problems related to non-iterable objects (such as WeakSet and WeakMap), as well as problems inherent to some built-in objects (like Math) are not considered by my definition of completeness. Also, although extra cloning features are cool, a javascript-based deep-cloning solution can fit my definition of complete without providing cloning solutions for objects available through APIs (like HTML elements).
-
-## Deep-Cloning Problems
-Problems listed without *s are generally solvable.
-
-Problems listed with one or more *s are not generally be solved.
-
-Scope *
-Memory **
-Call Stack
-Inheritance
-Object Variety
-Circular References
-Cross-Frame Objects ***
-Functions, setters, and getters can reference out-of-cloner-scope variables. *
-
-Values within an object may use more than half of the available memory. **
-
-Custom constructors may be incorrectly named, and we've no accessible argument constructors. ***
-
-## Advancements to the Field - Instruction Functions
+## Advancements to the Realm of Deep-Cloning - Instruction Functions
 Instruction functions are a two-pass family of functions (like the Stringify and Parse, or Flatten and Unflatten families) that supports multi-clone acceleration. 
 
 ### Defining Multi-Deep-Clone Acceleration by Example
