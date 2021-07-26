@@ -1,7 +1,7 @@
-var multiClone = (function(){/*GNU LGPLv3 (C) July 2021 Ed Johnsen*/
+let multiClone = (function(){/*GNU LGPLv3 (C) July 2021 Ed Johnsen*/
 
 	// GENERAL SUPPORT VARIABLES
-	var errorConstructor = {
+	let errorConstructor = {
 		"Error":true,
 		"EvalError":true,
 		"RangeError":true,
@@ -22,66 +22,74 @@ var multiClone = (function(){/*GNU LGPLv3 (C) July 2021 Ed Johnsen*/
 
 			circMap.set( obj, true );
 
-			var cnstrctr = obj.constructor;
+			let cnstrctr = obj.constructor;
+      
+			let instructions;
+      
+			let isCustom = false;
 
-			var conName = cnstrctr.name || 
-				cnstrctr.toString().match(nameRE)[1];
+			if(cnstrctr){
 
-			var instructions = {
+				let conName = cnstrctr.name || 
+					cnstrctr.toString().match(nameRE)[1];
 
-				conName:conName,
+				instructions = {
 
-				cnstrctr:cnstrctr
-			};
+					cnstrctr:cnstrctr
+				};
 
-			var isCustom;
+				if(conName === "Object"){}
 
+				else if(conName === "Date")
+					instructions.value = obj.getTime();
 
-			if(conName === "Object"){}
+				else if(conName === "RegExp")
+					instructions.value = obj;
 
-			else if(conName === "Date")
-				instructions.value = obj.getTime();
+				else if( conName.indexOf("Array") > -1 )
+					instructions.length = obj.length;
 
-			else if(conName === "RegExp")
-				instructions.value = obj;
+				else if( conName === "Boolean" || conName === "Number" || conName === "String" )
+					instructions.value = obj.valueOf();
 
-			else if( conName.indexOf("Array") > -1 )
-				instructions.length = obj.length;
+				else if(conName === "Symbol"){
 
-			else if( conName === "Boolean" || conName === "Number" || conName === "String" )
-				instructions.value = obj.valueOf();
-			
-			else if(conName === "Symbol"){
-				
-				instructions.noNew = true;
-				
-				instructions.value = obj.toString().slice( 7, -1 );
-			}
-			
-			else if(conName === "BigInt"){
-				
-				instructions.noNew = true;
-				
-				instructions.value = obj.valueOf();
-			}
+					instructions.noNew = true;
 
-			else if( conName.indexOf("Error") > -1 ){
+					instructions.value = obj.toString().slice( 7, -1 );
+				}
 
-				if(obj.stack){
+				else if(conName === "BigInt"){
 
-					instructions.message = obj.message;
+					instructions.noNew = true;
 
-					instructions.stack = obj.stack;
+					instructions.value = obj.valueOf();
+				}
+
+				else if( conName.indexOf("Error") > -1 ){
+
+					if(obj.stack){
+
+						instructions.message = obj.message;
+
+						instructions.stack = obj.stack;
+					}
+
+					else
+						instructions.message = obj.message + " _INACCURATE OR MISSING STACK-TRACE_ ";
 				}
 
 				else
-					instructions.message = obj.message + " _INACCURATE OR MISSING STACK-TRACE_ ";
+					isCustom = true;
 			}
 
-			else
-				isCustom = true;
+			else 
+				instructions = {
 
-			var props,
+					dictionary:true
+				};
+      
+			let props,
 				prop,
 				descriptor,
 				i = 0,
@@ -130,8 +138,7 @@ var multiClone = (function(){/*GNU LGPLv3 (C) July 2021 Ed Johnsen*/
 				}
 
 				else
-					flatDescriptors.push( [prop, descriptor] );
-				
+					flatDescriptors.push( [prop, descriptor] );				
 			}
 
 			instructions.flatLength = flatDescriptors.length;
@@ -162,7 +169,7 @@ var multiClone = (function(){/*GNU LGPLv3 (C) July 2021 Ed Johnsen*/
 			instructions !== null
 		){
 
-			var newObj,
+			let newObj,
 				i = 0,
 				key,
 				descriptor,
@@ -183,6 +190,9 @@ var multiClone = (function(){/*GNU LGPLv3 (C) July 2021 Ed Johnsen*/
 			
 			else if( instructions.noNew )
 				newObj = instructions.cnstrctr( instructions.value )
+
+			else if( instructions.dictionary )
+				newObj = Object.create(null);
 
 			else
 				newObj = new instructions.cnstrctr();
@@ -231,20 +241,20 @@ var multiClone = (function(){/*GNU LGPLv3 (C) July 2021 Ed Johnsen*/
 
 	function multiClone(obj, n){
 
-		var parsed = parseFloat(n);
+		let parsed = parseFloat(n);
 
-		var isNumKey = parsed === Math.floor(parsed) && 
+		let isNumKey = parsed === Math.floor(parsed) && 
 				isFinite(parsed);
 
 		n = isNumKey 
 			? Math.max( Math.floor(n), 1 )
 			: 1;
 
-		var returnArr = new Array(n);
+		let returnArr = new Array(n);
 
-		var instructions = makeInstructions(obj);
+		let instructions = makeInstructions(obj);
 
-		for(var i=0; i<n; i++)
+		for(let i=0; i<n; i++)
 			returnArr[i] = useInstructions(instructions);
 
 		return returnArr;
