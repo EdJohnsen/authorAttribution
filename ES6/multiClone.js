@@ -117,23 +117,20 @@ var multiClone = (function(){/*GNU LGPLv3 (C) July 2021 Ed Johnsen*/
 
 				descriptor = Object.getOwnPropertyDescriptor( obj, prop );
 
-				if(typeof prop !== "function"){
+				if(
+					descriptor.value &&
+					typeof descriptor.value === "object" &&
+					descriptor.value !== null &&
+					!circMap.get( descriptor.value )
+				){
 
-					if(
-						descriptor.value &&
-						typeof descriptor.value === "object" &&
-						descriptor.value !== null &&
-						!circMap.get( descriptor.value )
-					){
+					deepDescriptors.push( [prop, descriptor] );
 
-						deepDescriptors.push( [prop, descriptor] );
-
-						deepValues.push( makeInstructions( descriptor.value, circMap ) );
-					}
-					
-					else
-						flatDescriptors.push( [prop, descriptor] );
+					deepValues.push( makeInstructions( descriptor.value, circMap ) );
 				}
+
+				else
+					flatDescriptors.push( [prop, descriptor] );
 				
 			}
 
