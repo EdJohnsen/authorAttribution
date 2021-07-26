@@ -117,21 +117,23 @@ var multiCloneES6 = (function(){/*GNU LGPLv3 (C) July 2021 Ed Johnsen*/
 
 				descriptor = Object.getOwnPropertyDescriptor( obj, prop );
 
-				if(
-					descriptor.value &&
-					typeof descriptor.value === "object" &&
-					descriptor.value !== null &&
-					!circMap.get( descriptor.value )
-				){
+				if(typeof prop !== "function"){
+					if(
+						descriptor.value &&
+						typeof descriptor.value === "object" &&
+						descriptor.value !== null &&
+						!circMap.get( descriptor.value )
+					){
 
-					deepDescriptors.push( [prop, descriptor] );
+						deepDescriptors.push( [prop, descriptor] );
 
-					deepValues.push( makeInstructions( descriptor.value, circMap ) );
+						deepValues.push( makeInstructions( descriptor.value, circMap ) );
+					}
+					
+					else
+						flatDescriptors.push( [prop, descriptor] );
 				}
-				else{
-
-					flatDescriptors.push( [prop, descriptor] );
-				}
+				
 			}
 
 			instructions.flatLength = flatDescriptors.length;
