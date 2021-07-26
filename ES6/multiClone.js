@@ -1,4 +1,4 @@
-var multiCloneES6 = (function(){/*GNU LGPLv3 (C) July 2021 Ed Johnsen*/
+var multiClone = (function(){/*GNU LGPLv3 (C) July 2021 Ed Johnsen*/
 
 	// GENERAL SUPPORT VARIABLES
 	var errorConstructor = {
@@ -118,6 +118,7 @@ var multiCloneES6 = (function(){/*GNU LGPLv3 (C) July 2021 Ed Johnsen*/
 				descriptor = Object.getOwnPropertyDescriptor( obj, prop );
 
 				if(typeof prop !== "function"){
+
 					if(
 						descriptor.value &&
 						typeof descriptor.value === "object" &&
@@ -231,7 +232,7 @@ var multiCloneES6 = (function(){/*GNU LGPLv3 (C) July 2021 Ed Johnsen*/
 	}
 
 
-	function multiCloneES6(obj, n){
+	function multiClone(obj, n){
 
 		var parsed = parseFloat(n);
 
@@ -253,5 +254,5 @@ var multiCloneES6 = (function(){/*GNU LGPLv3 (C) July 2021 Ed Johnsen*/
 	}
 
 
-	return multiCloneES6;
+	return multiClone;
 })();
