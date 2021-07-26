@@ -54,48 +54,55 @@ var multiClone = (function(){/*GNU LGPLv3 (C) July 2021 Ed Johnsen*/
 
 			var cnstrctr = obj.constructor;
 
-			var conName = cnstrctr.name || 
-				cnstrctr.toString().match(nameRE)[1];
+			if(cnstrctr){
+				var conName = cnstrctr.name || 
+					cnstrctr.toString().match(nameRE)[1];
 
-			var instructions = {
+				var instructions = {
 
-				conName:conName,
+					conName:conName,
 
-				cnstrctr:cnstrctr
-			};
+					cnstrctr:cnstrctr
+				};
 
-			var isCustom;
+				var isCustom;
 
 
-			if( conName === "Object"){}
+				if( conName === "Object"){}
 
-			else if(conName === "Date")
-				instructions.value = obj.getTime();
+				else if(conName === "Date")
+					instructions.value = obj.getTime();
 
-			else if(conName === "RegExp")
-				instructions.value = obj;
+				else if(conName === "RegExp")
+					instructions.value = obj;
 
-			else if( conName.indexOf("Array") > -1 )
-				instructions.length = obj.length;
+				else if( conName.indexOf("Array") > -1 )
+					instructions.length = obj.length;
 
-			else if( conName === "Boolean" || conName === "Number" || conName === "String" )
-				instructions.value = obj.valueOf();
+				else if( conName === "Boolean" || conName === "Number" || conName === "String" )
+					instructions.value = obj.valueOf();
 
-			else if( conName.indexOf("Error") > -1 ){
+				else if( conName.indexOf("Error") > -1 ){
 
-				if(obj.stack){
+					if(obj.stack){
 
-					instructions.message = obj.message;
+						instructions.message = obj.message;
 
-					instructions.stack = obj.stack;
+						instructions.stack = obj.stack;
+					}
+
+					else
+						instructions.message = obj.message + " _INACCURATE OR MISSING STACK-TRACE_ ";
 				}
 
 				else
-					instructions.message = obj.message + " _INACCURATE OR MISSING STACK-TRACE_ ";
+					isCustom = true;
 			}
-
+			
 			else
-				isCustom = true;
+				instructions = {
+					dictionary:true
+				};
 
 			var props,
 				prop,
@@ -199,6 +206,9 @@ var multiClone = (function(){/*GNU LGPLv3 (C) July 2021 Ed Johnsen*/
 
 				newObj.stack = instructions.stack;
 			}
+
+			else if( instructions.dictionary )
+				newObj = Object.create(null);
 
 			else
 				newObj = new instructions.cnstrctr();
